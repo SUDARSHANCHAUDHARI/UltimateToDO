@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<!-- HTML5 Document Type Declaration - ensures modern HTML standards -->
+<html lang="en">
+<!-- Root HTML element with language attribute for accessibility and SEO -->
+<head>
+    <!-- Character encoding declaration - supports all international characters -->
+    <meta charset="UTF-8">
+    
+    <!-- Viewport meta tag - ensures responsive design on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta description for SEO - describes the page content for search engines -->
+    <meta name="description" content="Ultimate Todo List - A comprehensive task management app">
+    
+    <!-- Page title that appears in browser tab -->
+    <title>Ultimate Todo List</title>
+    
+    <!-- Preconnect to Google Fonts to optimize font loading performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts import - Inter font family for modern, clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CDN - provides icons for the interface -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link to custom CSS stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<!-- Body with default dark theme class applied -->
+<body class="theme-dark">
+    <!-- Main application container - wraps all content -->
+    <div class="app-container">
+        <!-- Fixed Controls Area - stays at top when scrolling -->
+        <div class="fixed-controls">
+            <!-- Header Section -->
+            <header class="header">
+                <!-- Header content wrapper for flexbox layout -->
+                <div class="header-content">
+                    <!-- Main application title with icon -->
+                    <h1 class="app-title">
+                        <i class="fas fa-tasks"></i> <!-- Tasks icon -->
+                        ULTIMATE TO DO LIST
+                    </h1>
+                    <!-- Header controls container -->
+                    <div class="header-controls">
+                        <!-- Real-time date and time display -->
+                        <div class="datetime">
+                            <span id="current-datetime"></span> <!-- JavaScript will populate this -->
+                        </div>
+                        <!-- Theme toggle button for dark/light mode switching -->
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <i class="fas fa-moon"></i> <!-- Moon icon for dark theme -->
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Add New Todo Form Section -->
+            <div class="add-todo-card">
+                <!-- Input container for the main todo input -->
+                <div class="input-container">
+                    <!-- Plus icon to indicate adding functionality -->
+                    <div class="add-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <!-- Main todo input field -->
+                    <input 
+                        type="text" 
+                        id="todo-input" 
+                        placeholder="Add a new task..." 
+                        autocomplete="off"
+                        maxlength="200"
+                    >
+                    <!-- Add button to submit new todo -->
+                    <button id="add-btn" class="add-button" type="button">
+                        <i class="fas fa-paper-plane"></i> <!-- Send/submit icon -->
+                        Add
+                    </button>
+                </div>
+                
+                <!-- Advanced Options Section - initially hidden -->
+                <div class="advanced-options" id="advanced-options">
+                    <!-- First row of advanced options -->
+                    <div class="option-row">
+                        <!-- Priority selection dropdown -->
+                        <div class="option-group">
+                            <label for="priority-select">Priority:</label>
+                            <select id="priority-select" class="select-input">
+                                <option value="medium">Medium</option> <!-- Default priority -->
+                                <option value="high">High</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Category selection dropdown -->
+                        <div class="option-group">
+                            <label for="category-select">Category:</label>
+                            <select id="category-select" class="select-input">
+                                <option value="general">General</option> <!-- Default category -->
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="health">Health</option>
+                                <option value="finance">Finance</option>
+                                <option value="learning">Learning</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Due date picker -->
+                        <div class="option-group">
+                            <label for="due-date">Due Date:</label>
+                            <input type="date" id="due-date" class="date-input">
+                        </div>
+                    </div>
+                    
+                    <!-- Second row for notes textarea -->
+                    <div class="option-row">
+                        <div class="option-group notes-group">
+                            <label for="task-notes">Notes:</label>
+                            <!-- Textarea for additional task notes -->
+                            <textarea id="task-notes" placeholder="Add notes (optional)" maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Button to toggle advanced options visibility -->
+                <button id="toggle-advanced" class="toggle-advanced-btn">
+                    <i class="fas fa-cog"></i> <!-- Settings gear icon -->
+                    Advanced Options
+                </button>
+            </div>
+
+            <!-- Search and View Tools Section -->
+            <div class="search-tools-card">
+                <!-- Search functionality container -->
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <!-- Search icon -->
+                        <i class="fas fa-search search-icon"></i>
+                        <!-- Search input field -->
+                        <input type="text" id="search-input" placeholder="Search tasks..." class="search-input">
+                        <!-- Clear search button - initially hidden -->
+                        <button id="clear-search" class="clear-search-btn" style="display: none;">
+                            <i class="fas fa-times"></i> <!-- X icon to clear search -->
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tools container for sorting and view options -->
+                <div class="tools-container">
+                    <!-- Sort options dropdown -->
+                    <div class="sort-group">
+                        <label for="sort-select">Sort by:</label>
+                        <select id="sort-select" class="select-input">
+                            <option value="created">Date Created</option> <!-- Default sort -->
+                            <option value="priority">Priority</option>
+                            <option value="dueDate">Due Date</option>
+                            <option value="alphabetical">A-Z</option>
+                            <option value="category">Category</option>
+                        </select>
+                    </div>
+                    
+                    <!-- View toggle buttons for list/grid view -->
+                    <div class="view-toggle">
+                        <!-- List view button - active by default -->
+                        <button id="list-view" class="view-btn active" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <!-- Grid view button -->
+                        <button id="grid-view" class="view-btn" title="Grid View">
+                            <i class="fas fa-th"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Statistics Section -->
+            <div class="controls-card">
+                <!-- First row - statistics and action buttons -->
+                <div class="controls-row">
+                    <!-- Task statistics display -->
+                    <div class="stats">
+                        <!-- Total tasks counter -->
+                        <span class="stat-item">
+                            <i class="fas fa-list"></i>
+                            Total: <span id="total-count">0</span>
+                        </span>
+                        <!-- Active (incomplete) tasks counter -->
+                        <span class="stat-item">
+                            <i class="fas fa-circle"></i>
+                            Active: <span id="active-count">0</span>
+                        </span>
+                        <!-- Completed tasks counter -->
+                        <span class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            Completed: <span id="completed-count">0</span>
+                        </span>
+                        <!-- Overdue tasks counter -->
+                        <span class="stat-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Overdue: <span id="overdue-count">0</span>
+                        </span>
+                    </div>
+                    
+                    <!-- Action buttons container -->
+                    <div class="actions">
+                        <!-- Bulk select mode toggle button -->
+                        <button id="bulk-select" class="action-btn">
+                            <i class="fas fa-check-square"></i>
+                            Bulk Select
+                        </button>
+                        <!-- Export data button -->
+                        <button id="export-data" class="action-btn">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                        <!-- Clear all completed tasks button -->
+                        <button id="clear-completed" class="action-btn">
+                            <i class="fas fa-trash"></i>
+                            Clear Completed
+                        </button>
+                        <!-- Delete all tasks button - has danger styling -->
+                        <button id="delete-all" class="action-btn danger">
+                            <i class="fas fa-trash-alt"></i>
+                            Delete All
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Second row - filter buttons -->
+                <div class="controls-row">
+                    <!-- Task status filter section -->
+                    <div class="filter-section">
+                        <span class="filter-label">Filters:</span>
+                        <div class="filters">
+                            <!-- Show all tasks filter - active by default -->
+                            <button class="filter-btn active" data-filter="all">
+                                <i class="fas fa-list"></i>
+                                All
+                            </button>
+                            <!-- Show only active tasks filter -->
+                            <button class="filter-btn" data-filter="active">
+                                <i class="fas fa-circle"></i>
+                                Active
+                            </button>
+                            <!-- Show only completed tasks filter -->
+                            <button class="filter-btn" data-filter="completed">
+                                <i class="fas fa-check-circle"></i>
+                                Completed
+                            </button>
+                            <!-- Show only overdue tasks filter -->
+                            <button class="filter-btn" data-filter="overdue">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Overdue
+                            </button>
+                            <!-- Show only high priority tasks filter -->
+                            <button class="filter-btn" data-filter="high">
+                                <i class="fas fa-star"></i>
+                                High Priority
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Category filter section in same row -->
+                    <div class="category-filters">
+                        <span class="filter-label">Categories:</span>
+                        <div class="category-buttons" id="category-buttons">
+                            <!-- All categories filter - active by default -->
+                            <button class="category-filter active" data-category="all">All</button>
+                            <!-- Work category filter -->
+                            <button class="category-filter" data-category="work">Work</button>
+                            <!-- Personal category filter -->
+                            <button class="category-filter" data-category="personal">Personal</button>
+                            <!-- Shopping category filter -->
+                            <button class="category-filter" data-category="shopping">Shopping</button>
+                            <!-- Health category filter -->
+                            <button class="category-filter" data-category="health">Health</button>
+                            <!-- Finance category filter -->
+                            <button class="category-filter" data-category="finance">Finance</button>
+                            <!-- Learning category filter -->
+                            <button class="category-filter" data-category="learning">Learning</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Content Area - contains todo list and bulk actions -->
+        <div class="scrollable-content">
+            <!-- Bulk Actions Bar - shown when bulk select mode is active -->
+            <div id="bulk-actions" class="bulk-actions">
+                <!-- Information about selected items -->
+                <div class="bulk-info">
+                    <span id="selected-count">0</span> tasks selected
+                </div>
+                <!-- Bulk action buttons -->
+                <div class="bulk-buttons">
+                    <!-- Complete selected tasks button -->
+                    <button id="bulk-complete" class="bulk-btn">
+                        <i class="fas fa-check"></i>
+                        Complete
+                    </button>
+                    <!-- Delete selected tasks button -->
+                    <button id="bulk-delete" class="bulk-btn">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                    <!-- Set selected tasks to high priority button -->
+                    <button id="bulk-high-priority" class="bulk-btn">
+                        <i class="fas fa-star"></i>
+                        High Priority
+                    </button>
+                    <!-- Cancel bulk select mode button -->
+                    <button id="cancel-bulk" class="bulk-btn">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Todo List Container -->
+            <div class="todo-list-container">
+                <!-- Main todo list - populated dynamically by JavaScript -->
+                <ul id="todo-list" class="todo-list">
+                    <!-- Todo items will be dynamically added here by JavaScript -->
+                </ul>
+                
+                <!-- Empty state message - shown when no todos exist -->
+                <div id="empty-state" class="empty-state">
+                    <i class="fas fa-clipboard-check"></i> <!-- Clipboard check icon -->
+                    <h3>No tasks yet</h3>
+                    <p>Add a task to get started!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications Container - for success/error messages -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <!-- Edit Task Modal Dialog -->
+    <div id="edit-modal" class="modal">
+        <!-- Modal content wrapper -->
+        <div class="modal-content">
+            <!-- Modal header with title and close button -->
+            <div class="modal-header">
+                <h3>Edit Task</h3>
+                <!-- Close modal button -->
+                <button id="close-modal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- Modal body with edit input field -->
+            <div class="modal-body">
+                <input type="text" id="edit-input" placeholder="Edit your task...">
+            </div>
+            <!-- Modal footer with action buttons -->
+            <div class="modal-footer">
+                <!-- Cancel edit button -->
+                <button id="cancel-edit" class="btn-secondary">Cancel</button>
+                <!-- Save changes button -->
+                <button id="save-edit" class="btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript file import - handles all application functionality -->
+    <script src="script.js"></script>
+</body>
+</html> 
