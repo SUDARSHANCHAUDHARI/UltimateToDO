@@ -8,3 +8,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# graphify knowledge graph
+graphify-out/
