@@ -11,3 +11,10 @@ Thumbs.db
 
 # graphify knowledge graph
 graphify-out/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.key
+secrets.json
