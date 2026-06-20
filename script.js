@@ -826,8 +826,8 @@ class AdvancedTodoApp {
                     <div class="todo-details">
                         <div class="todo-header">
                             <span class="todo-text">${this.escapeHtml(todo.text)}</span>
-                            <span class="priority-badge priority-${todo.priority}">${todo.priority}</span>
-                            <span class="category-badge">${todo.category}</span>
+                            <span class="priority-badge priority-${todo.priority}">${this.escapeHtml(todo.priority)}</span>
+                            <span class="category-badge">${this.escapeHtml(todo.category)}</span>
                         </div>
                         <div class="todo-meta">
                             ${todo.dueDate ? `<span class="todo-date ${dueDateClass}">
