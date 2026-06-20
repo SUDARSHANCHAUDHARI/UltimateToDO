@@ -1,5 +1,10 @@
 # Ultimate Todo App
 
+![Vanilla JS](https://img.shields.io/badge/vanilla-JS-f7df1e)
+![No build step](https://img.shields.io/badge/build-none-brightgreen)
+![Storage](https://img.shields.io/badge/storage-localStorage-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A comprehensive, feature-rich todo list built with pure HTML, CSS, and vanilla JavaScript. Combines the best ideas from 8 different todo implementations into one polished app — no frameworks, no build step, just open `index.html` and go.
 
 ## Features
